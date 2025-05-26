@@ -1,0 +1,25 @@
+{
+  "name": "namaste-node",
+  "version": "1.0.0",
+  "main": "app.ts",
+  "scripts": {
+    "local": "nodemon src/app.ts"
+  },
+  "author": "",
+  "license": "ISC",
+  "keywords": [],
+  "description": "",
+  "devDependencies": {
+    "@types/express": "^5.0.1",
+    "@types/node": "^22.14.0",
+    "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "express-validator": "^7.2.1",
+    "mongoose": "^8.13.2",
+    "nodemon": "^3.1.9"
+  }
+}
