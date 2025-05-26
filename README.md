@@ -25,11 +25,12 @@ A Tinder-style matching app built for developers. Find your perfect code partner
    ```bash
    git clone https://github.com/your-username/devtinder.git
    cd devtinder
-**Install dependencies**
+## ⚙️ Install dependencies
 npm install
-**create dotenv file** 
+##    create dotenv file
 JWT_SECRET=your_jwt_secret
 DB_URL= your_mongodb_connection_string
 PORT= 3000
-**Run the server**
+##    Run the server
+
 npm run local
