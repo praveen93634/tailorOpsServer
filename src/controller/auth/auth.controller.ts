@@ -3,6 +3,8 @@ import { response } from '../../helper/commenrespons';
 import bcrypt from 'bcrypt'
 import { errorMessage } from '../../helper/errorMessage';
 const User = require('../../model/user.model')
+// import {jwt} from 'jsonwebtoken'
+const jwt=require('jsonwebtoken')
 /***
  * Author:praveen Kumar
  * Date: 26-05-2025
@@ -19,6 +21,11 @@ export const signup = async (req, res, next) => {
         response(req, res, err, 500, err.message);
     }
 }
+/***
+ * Author:praveen Kumar
+ * Date: 26-05-2025
+ * Description: This funtion is used to handle the login 
+ */
 export const login = async (req, res, next) => {
     try {
         const { email, password } = req.body;
@@ -28,7 +35,9 @@ export const login = async (req, res, next) => {
         }
         const compare = await bcrypt.compare(password, data.password)
         if (compare) {
-            response(req, res, "login User", 200, "User login Sucessfully")
+            const gentoken=await jwt.sign({_id:data._id},process.env.JWT_SECRET)
+            res.cookie("token",gentoken)
+            response(req, res, "User login", 200, "User login Sucessfully")
         }
         else {
             response(req, res, "login User", 200, errorMessage.invalid)
