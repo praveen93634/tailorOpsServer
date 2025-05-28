@@ -2,15 +2,21 @@ import { log } from "console"
 import { response } from "../helper/commenrespons"
 import { UserDocument } from "../model/user.model"
 import { validationResult } from 'express-validator'
+// import bcrypt from 'bcrypt'
+const bcrypt=require('bcrypt')
+const jwt=require('jsonwebtoken')
+import { constants } from "buffer"
 const User = require('../model/user.model')
 
 export const saveUser = async (req, res, next) => {
     try {
-        const userDetails: UserDocument = req.body
-        const user = new User(userDetails)
-        await user.save()
-        response(req, res, user, 201, "User created successfully")
-
+        const userDetails:UserDocument = req.body;
+        const password=req.body.password
+        const passwordHash =await bcrypt.hash(password, 10);
+        const user = new User(userDetails);
+        user.password =passwordHash;
+        const insertUser = await user.save();
+        response(req, res, insertUser, 201, "User created successfully");
     }
 
     catch (err) {
