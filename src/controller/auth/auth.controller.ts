@@ -36,7 +36,7 @@ export const login = async (req, res, next) => {
         }
         const compare = await bcrypt.compare(password, data.password)
         if (compare) {
-            const gentoken = await jwt.sign({ _id: data._id }, process.env.JWT_SECRET, { expiresIn: "1d" })
+            const gentoken = await jwt.sign({ _id: data._id,loginType:data.loginType }, process.env.JWT_SECRET, { expiresIn: "1d" })
             response(req, res, { token: gentoken,user:data }, 200, "User login Sucessfully")
         }
         else {
