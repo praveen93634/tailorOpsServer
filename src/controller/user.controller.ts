@@ -1,13 +1,14 @@
 import { log } from "console"
 import { response } from "../helper/commenrespons"
 import { UserDocument } from "../model/user.model"
-import { validationResult } from 'express-validator'
-// import bcrypt from 'bcrypt'
 const bcrypt=require('bcrypt')
-const jwt=require('jsonwebtoken')
-import { constants } from "buffer"
 const User = require('../model/user.model')
 
+/***
+ * Author:praveen Kumar
+ * Date: 26-05-2025
+ * Description: This funtion is used to save the user
+ */
 export const saveUser = async (req, res, next) => {
     try {
         const userDetails:UserDocument = req.body;
@@ -28,6 +29,12 @@ export const saveUser = async (req, res, next) => {
     }
 
 }
+
+/***
+ * Author:praveen Kumar
+ * Date: 26-05-2025
+ * Description: This funtion is used to update the user
+ */
 export const Updateuser = async (req, res, next) => {
     try {
         const userDetails: UserDocument = req.body
@@ -42,6 +49,12 @@ export const Updateuser = async (req, res, next) => {
         response(req, res, err, 500, err.message)
     }
 }
+
+/***
+ * Author:praveen Kumar
+ * Date: 26-05-2025
+ * Description: This funtion is used to get all the user
+ */
 export const geAlltUser = async (req, res, next) => {
     try {
         const userDetails: UserDocument = req.body

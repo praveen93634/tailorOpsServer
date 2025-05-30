@@ -3,10 +3,13 @@ import { response } from "../helper/commenrespons"
 import { EmployeeDocument } from "../model/employee.model"
 import { validationResult } from 'express-validator'
 const bcrypt=require('bcrypt')
-const jwt=require('jsonwebtoken')
-import { constants } from "buffer"
 const Employee = require('../model/employee.model')
 
+/***
+ * Author:praveen Kumar
+ * Date: 29-05-2025
+ * Description: This funtion is used to save the employee
+ */
 export const saveEmployee = async (req, res, next) => {
     try {
         console.log("req.body", req.body)
@@ -28,6 +31,11 @@ export const saveEmployee = async (req, res, next) => {
     }
 
 }
+/***
+ * Author:praveen Kumar
+ * Date: 29-05-2025
+ * Description: This funtion is used to update the employee
+ */
 export const UpdateEmployee = async (req, res, next) => {
     try {
         const EmployeeDetails: EmployeeDocument = req.body
@@ -42,6 +50,11 @@ export const UpdateEmployee = async (req, res, next) => {
         response(req, res, err, 500, err.message)
     }
 }
+/***
+ * Author:praveen Kumar
+ * Date: 29-05-2025
+ * Description: This funtion is used to get all the employee
+ */
 export const geAllEmployee = async (req, res, next) => {
     try {
         const EmployeeDetails: EmployeeDocument = req.body
