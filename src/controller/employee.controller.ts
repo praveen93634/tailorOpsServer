@@ -66,3 +66,24 @@ export const geAllEmployee = async (req, res, next) => {
         response(req, res, err, 500, err.message)
     }
 }
+/***
+ * Author:praveen Kumar
+ * Date: 29-05-2025
+ * Description: This funtion is used to get employee by limit
+ */
+export const getEmployeeFilter=async(req,res,next)=>{
+    try{
+        var findquary
+        var limit=req.query.limit ? req.query.limit : 0;
+        var page=req.query.page ? req.query.page : 0;
+        let andList:any=[]
+        andList.push({isDeleted:false})
+        findquary=(andList.length>0)?{ $and: andList }: {};
+        let EmployeeList=await Employee.find(findquary).skip(page).limit(limit).sort({createdAt:-1})
+        let EmployeeCount=await Employee.countDocuments(findquary)
+        response(req,res,{EmployeeList,EmployeeCount},200,"Employee List Fetched Successfully")
+    }
+    catch(err){
+        response(req,res,err,500,err.message)
+    }
+}
