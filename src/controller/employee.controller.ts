@@ -69,7 +69,7 @@ export const geAllEmployee = async (req, res, next) => {
 /***
  * Author:praveen Kumar
  * Date: 29-05-2025
- * Description: This funtion is used to get employee by limit
+ * Description: This funtion is used to get employee by Filter
  */
 export const getEmployeeFilter=async(req,res,next)=>{
     try{
