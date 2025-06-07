@@ -1,4 +1,4 @@
-# DevTinder 💖💻
+# Hostel Management Server 💖💻
 
 A Tinder-style matching app built for developers. Find your perfect code partner based on tech stack, preferences, and vibes!
 
