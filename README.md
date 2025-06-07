@@ -66,12 +66,19 @@ git clone https://github.com/yourusername/hostel-backend.git
 cd hostel-backend
 
 ```
-## Add .env File after cloned the project (db connection/paymentgateway/email sending  is not possible without .enve
+## 🔐 Environment Variables
 
-PORT=5000
-MONGO_URI=your_mongodb_connection_uri
-JWT_SECRET=your_jwt_secret_key
-EMAIL_USER=your_email@example.com
-EMAIL_PASS=your_email_password
-RAZORPAY_KEY_ID=your_razorpay_key_id
-RAZORPAY_KEY_SECRET=your_razorpay_key_secret
+The following environment variables must be set in your `.env` file for the application to function correctly:
+
+| Variable Name        | Description                                 | Example Value                     |
+|----------------------|---------------------------------------------|-----------------------------------|
+| `PORT`               | Port number the server will run on          | `5000`                            |
+| `MONGO_URI`          | MongoDB connection URI                      | `mongodb+srv://<user>:<pass>@...` |
+| `JWT_SECRET`         | Secret key for JWT token signing            | `your_jwt_secret_key`             |
+| `EMAIL_USER`         | Email ID used for sending transactional emails | `your_email@example.com`       |
+| `EMAIL_PASS`         | Password or app-specific password for email | `your_email_password`             |
+| `RAZORPAY_KEY_ID`    | Razorpay API key ID                         | `your_razorpay_key_id`            |
+| `RAZORPAY_KEY_SECRET`| Razorpay API secret                         | `your_razorpay_key_secret`        |
+
+> ⚠️ Make sure **never to commit** your `.env` file to version control. Add it to your `.gitignore` file.
+
