@@ -44,23 +44,18 @@ This repository contains the backend codebase for the **Hostel Management System
 | Razorpay / Stripe | Online payment integration       |
 
 ---
+### 🔍 Folder Details
 
-## 📁 Project Structure
-
-hostel-backend/
-├── config/ # DB and server configurations
-├── controllers/ # Logic for handling requests
-├── middlewares/ # JWT auth, error handling
-├── models/ # Mongoose schemas
-├── routes/ # API endpoints
-├── sockets/ # WebSocket events
-├── utils/ # Helper functions
-├── server.js # Entry point
-├── .env # Environment variables
-└── package.json # Dependencies
-
-
----
+- **`config/`** – Centralized configurations like database connection and constants.
+- **`controllers/`** – Business logic for handling HTTP requests and responses.
+- **`middlewares/`** – Reusable middlewares like authentication and error handling.
+- **`models/`** – MongoDB schemas using Mongoose to define the data structure.
+- **`routes/`** – All Express route handlers organized by module.
+- **`sockets/`** – WebSocket (real-time) logic handled through Socket.IO events.
+- **`utils/`** – Helper functions for repeated operations like mail sending, OTP generation, etc.
+- **`server.js`** – Initializes the Express app, connects to DB, and starts the server.
+- **`.env`** – Stores sensitive configuration values (DB URI, API keys).
+- **`package.json`** – Lists project dependencies, scripts, and metadata.
 
 ## ⚙️ Installation & Setup
 
