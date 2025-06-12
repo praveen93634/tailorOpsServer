@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { geAllEmployee, saveEmployee, UpdateEmployee } from '../controller/employee.controller';
+import { geAllEmployee, getEmployeeFilter, saveEmployee, UpdateEmployee } from '../controller/employee.controller';
 import { basicAuth } from '../middleware/auth';
 
 const router: Router = Router();
@@ -12,5 +12,8 @@ router.put('/',
 router.get('/getAllEmployee',
     basicAuth,
     geAllEmployee)
+router.put('/getEmployeeFilter',
+    basicAuth,
+    getEmployeeFilter)
 
 export default router;

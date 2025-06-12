@@ -74,13 +74,13 @@ export const geAllEmployee = async (req, res, next) => {
 export const getEmployeeFilter=async(req,res,next)=>{
     try{
         var findquary
-        var limit=req.query.limit ? req.query.limit : 0;
-        var page=req.query.page ? req.query.page : 0;
+        var limit=req.body.limit ? req.body.limit : 0;
+        var page=req.body.page ? req.body.page : 0;
         let andList:any=[]
         andList.push({isDeleted:false})
         findquary=(andList.length>0)?{ $and: andList }: {};
         let EmployeeList=await Employee.find(findquary).skip(page).limit(limit).sort({createdAt:-1})
-        let EmployeeCount=await Employee.countDocuments(findquary)
+        let EmployeeCount = EmployeeList?.length 
         response(req,res,{EmployeeList,EmployeeCount},200,"Employee List Fetched Successfully")
     }
     catch(err){
