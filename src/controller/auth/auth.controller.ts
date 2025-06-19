@@ -6,11 +6,13 @@ import { hash } from 'crypto';
 const User = require('../../model/user.model')
 // import {jwt} from 'jsonwebtoken'
 const jwt = require('jsonwebtoken')
-/***
- * Author:praveen Kumar
- * Date: 26-05-2025
- * Description: This funtion is used to handle the signup 
- */
+
+    /***
+     * Author:praveen Kumar
+     * Date: 26-05-2025
+     * Description: This funtion is used to handle the signup 
+     */
+    
 export const signup = async (req, res, next) => {
     try {
         const { name, email, password, age } = req.body;
