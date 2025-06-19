@@ -21,10 +21,6 @@ export const saveUser = async (req, res, next) => {
     }
 
     catch (err) {
-        res.status(500).json({
-            message: "Error creating user",
-            error: err
-        })
         response(req, res, err, 500, err.message)
     }
 

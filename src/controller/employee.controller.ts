@@ -23,10 +23,6 @@ export const saveEmployee = async (req, res, next) => {
     }
 
     catch (err) {
-        res.status(500).json({
-            message: "Error creating Employee",
-            error: err
-        })
         response(req, res, err, 500, err.message)
     }
 
