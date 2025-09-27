@@ -21,7 +21,8 @@ app.use(cors({
 }))
 app.use('/', route);
 app.post('/tenant', async (req, res) => {
-    let {tenantId,name} = req.body;
+   try{
+     let {tenantId,name} = req.body;
     let tenantModel = await getTenentModel();
     let tenant = new tenantModel({ id: tenantId, name: name });
      if (!tenant) {
@@ -32,8 +33,11 @@ app.post('/tenant', async (req, res) => {
     tenant = new tenantModel({ id: tenantId, name: tenantId });
       await tenant.save(); 
     }
-//    return response(req,req,tenant,200,"SuccessFully Created")
-    res.send(JSON.stringify(tenant))
+   return response(req,req,tenant,200,"SuccessFully Created")
+   }
+   catch(error:any){
+    response(req,res,error,500,error.message)
+   }
 })
 app.post('/customer', async (req, res) => {
     try{
