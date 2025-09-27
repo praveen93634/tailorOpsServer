@@ -2,6 +2,10 @@ import express from 'express';
 import connectDB from './config/database';
 import route from './routes/index';
 import cors from 'cors'
+// import getTenantModel from './config/dbAdmin'
+import { getTenentModel } from './config/dbAdmin';
+import { getCustomerModel } from './config/tenentdb';
+import {response} from './helper/commenrespons'
 const app = express();
 
 // Middleware
@@ -16,13 +20,46 @@ app.use(cors({
     Credential:true
 }))
 app.use('/', route);
-connectDB()
-    .then(() => {
-        console.log("✅ Connected to DB");
-        app.listen(process.env.PORT, () => {
-            console.log("🚀 Server started");
-        });
-    })
-    .catch((err) => {
-        console.error("❌ DB connection failed:", err);
-    });
+app.post('/tenant', async (req, res) => {
+    let tenantId = req.body.tenantId;
+    let tenantModel = await getTenentModel();
+    let tenant = new tenantModel({ id: tenantId, name: tenantId });
+     if (!tenant) {
+            return response(req,res,"",404,"Not Found") // stop execution here
+        }
+    let doc = await tenantModel.findOneAndUpdate({ id: tenantId }, { id: tenantId, name: tenantId });
+    if (!doc) {
+    tenant = new tenantModel({ id: tenantId, name: tenantId });
+      await tenant.save(); 
+    }
+
+    res.send(JSON.stringify(tenant))
+})
+app.post('/customer', async (req, res) => {
+    try{
+         let tenantId = req.body.tenantId;
+    let customerName = req.body.customer;
+    let tenantModel = await getTenentModel();
+    let tenant = await tenantModel.findOne({ id: tenantId })
+    if (!tenant) {
+            return response(req,res,"",404,"Not Found") 
+        }
+    let customerModel = await getCustomerModel(tenantId);
+    let customer = new customerModel({ customerName });
+    let doc = await customerModel.findOneAndUpdate({ customerName }, { customerName });
+    if (!doc) {
+        customer = new customerModel({customerName});
+      await customer.save(); 
+    }
+    response(req,res,customer,200,"SuccessFully Created")
+    }
+    catch(err:any){
+        response(req,res,err,500,err.message)
+    }
+})
+
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+    console.log(`🚀 Server running on http://localhost:${PORT}`);
+});
