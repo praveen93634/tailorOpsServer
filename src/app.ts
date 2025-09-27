@@ -20,7 +20,7 @@ app.use(cors({
     Credential:true
 }))
 app.use('/', route);
-app.post('/tenant', async (req, res) => {
+app.post('/tenant', async (req, res) => { //not written fully changes may happens
    try{
      let {tenantId,name} = req.body;
     let tenantModel = await getTenentModel();
