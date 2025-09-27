@@ -62,3 +62,13 @@ export const geAlltUser = async (req, res, next) => {
         response(req, res, err, 500, err.message)
     }
 }
+// connectDB()
+//     .then(() => {
+//         console.log("✅ Connected to DB");
+//         app.listen(process.env.PORT, () => {
+//             console.log("🚀 Server started");
+//         });
+//     })
+//     .catch((err) => {
+//         console.error("❌ DB connection failed:", err);
+//     });
