@@ -1,15 +1,10 @@
+import { tenentSchema } from '../model/tenant';
 import connectDB from './database';
 import mongoose from "mongoose";
 require('dotenv').config()
-const url = process.env.DB_URL + "/mongodbcluster";
+const url = process.env.DB_URL + "/TenentDb";
 
 let db;
-
-const tenentSchema=new mongoose.Schema({
-    id:String,
-    name:String
-},{timestamps:true})
-const tenentModel=mongoose.model("tenents",tenentSchema)
 
 const getDb = async () => {
     return db ? db : await connectDB(url)

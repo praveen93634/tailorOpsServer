@@ -4,7 +4,7 @@ import route from './routes/index';
 import cors from 'cors'
 // import getTenantModel from './config/dbAdmin'
 import { getTenentModel } from './config/dbAdmin';
-import { getCustomerModel } from './config/tenentdb';
+import { getCustomerModel } from './utils/tenantconnection';
 import {response} from './helper/commenrespons'
 const app = express();
 
@@ -21,18 +21,18 @@ app.use(cors({
 }))
 app.use('/', route);
 app.post('/tenant', async (req, res) => {
-    let tenantId = req.body.tenantId;
+    let {tenantId,name} = req.body;
     let tenantModel = await getTenentModel();
-    let tenant = new tenantModel({ id: tenantId, name: tenantId });
+    let tenant = new tenantModel({ id: tenantId, name: name });
      if (!tenant) {
-            return response(req,res,"",404,"Not Found") // stop execution here
+            return response(req,res,"",404,"Not Found") 
         }
     let doc = await tenantModel.findOneAndUpdate({ id: tenantId }, { id: tenantId, name: tenantId });
     if (!doc) {
     tenant = new tenantModel({ id: tenantId, name: tenantId });
       await tenant.save(); 
     }
-
+//    return response(req,req,tenant,200,"SuccessFully Created")
     res.send(JSON.stringify(tenant))
 })
 app.post('/customer', async (req, res) => {

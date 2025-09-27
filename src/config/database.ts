@@ -2,9 +2,7 @@ import mongoose from "mongoose";
 require('dotenv').config()
 
 const mongooseOption={
-    useNewUrlParser:true,
-    useUnifiedTopology:true,
-    autoIndex:true,
+    autoIndex:false,
     connectTimeoutMs:10000,
     socketTimeoutMs:30000
 }
