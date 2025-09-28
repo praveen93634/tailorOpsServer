@@ -28,9 +28,9 @@ app.post('/tenant', async (req, res) => {
      if (!tenant) {
             return response(req,res,"",404,"Not Found") 
         }
-    let doc = await tenantModel.findOneAndUpdate({ id: tenantId }, { id: tenantId, name: tenantId });
+    let doc = await tenantModel.findOneAndUpdate({ id: tenantId }, { id: tenantId, name: name });
     if (!doc) {
-    tenant = new tenantModel({ id: tenantId, name: tenantId });
+    tenant = new tenantModel({ id: tenantId, name: name });
       await tenant.save(); 
     }
    return response(req,req,tenant,200,"SuccessFully Created")
@@ -41,13 +41,13 @@ app.post('/tenant', async (req, res) => {
 })
 app.post('/customer', async (req, res) => {
     try{
-         let tenantId = req.body.tenantId;
+    let tenantId = req.body.tenantId;
     let customerName = req.body.customer;
     let tenantModel = await getTenentModel();
     let tenant = await tenantModel.findOne({ id: tenantId })
     if (!tenant) {
-            return response(req,res,"",404,"Not Found") 
-        }
+        response(req,res,"",404,"Not Found") 
+    }
     let customerModel = await getCustomerModel(tenantId);
     let customer = new customerModel({ customerName });
     let doc = await customerModel.findOneAndUpdate({ customerName }, { customerName });
