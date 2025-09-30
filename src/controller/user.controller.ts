@@ -1,7 +1,10 @@
 import { log } from "console"
 import { response } from "../helper/commenrespons"
 import { UserDocument } from "../model/user.model"
-const bcrypt=require('bcrypt')
+import { getTenentModel } from "../config/dbAdmin"
+import { Counter } from "../model/count.model"
+import { getTenantDB } from "../config/tenentdb"
+const bcrypt = require('bcrypt')
 const User = require('../model/user.model')
 
 /***
@@ -9,23 +12,51 @@ const User = require('../model/user.model')
  * Date: 26-05-2025
  * Description: This funtion is used to save the user
  */
-export const saveUser = async (req, res, next) => {
+export const createUser = async (req, res, next) => {
     try {
-        const userDetails:UserDocument = req.body;
-        const password=req.body.password
-        const passwordHash =await bcrypt.hash(password, 10);
-        const user = new User(userDetails);
-        user.password =passwordHash;
-        const insertUser = await user.save();
-        response(req, res, insertUser, 201, "User created successfully");
+    const userDetails: UserDocument = req.body;
+    const passwordHash = await bcrypt.hash(userDetails.password, 10);
+    const superAdminUser = new User({
+      ...userDetails,
+      password: passwordHash,
+      TenentId: 1,
+      isdefault:2
+    });
+    await superAdminUser.save();
+    const tenantDb = await getTenantDB(1);
+    const TenantUserModel = tenantDb.model("User", User.schema);
+    const tenantUser = new TenantUserModel({
+      ...userDetails,
+      password: passwordHash,
+      TenentId: 1,
+      isdefault:2
+    });
+    await tenantUser.save();
+    response(req, res, superAdminUser, 201, "User + Tenant created successfully");
     }
-
     catch (err) {
         response(req, res, err, 500, err.message)
     }
-
 }
-
+// app.post('/tenant', async (req, res) => {
+//    try{
+//      let {tenantId,name} = req.body;
+//     let tenantModel = await getTenentModel();
+//     let tenant = new tenantModel({ id: tenantId, name: name });
+//      if (!tenant) {
+//             return response(req,res,"",404,"Not Found") 
+//         }
+//     let doc = await tenantModel.findOneAndUpdate({ id: tenantId }, { id: tenantId, name: name });
+//     if (!doc) {
+//     tenant = new tenantModel({ id: tenantId, name: name });
+//       await tenant.save(); 
+//     }
+//    return response(req,req,tenant,200,"SuccessFully Created")
+//    }
+//    catch(error:any){
+//     response(req,res,error,500,error.message)
+//    }
+// })
 /***
  * Author:praveen Kumar
  * Date: 26-05-2025

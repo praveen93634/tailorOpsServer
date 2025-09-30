@@ -4,7 +4,6 @@ const bcrypt = require('bcrypt')
 import { errorMessage } from '../../helper/errorMessage';
 import { hash } from 'crypto';
 const User = require('../../model/user.model')
-// import {jwt} from 'jsonwebtoken'
 const jwt = require('jsonwebtoken')
 
     /***

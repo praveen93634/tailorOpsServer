@@ -1,6 +1,8 @@
 import { getTenantDB } from '../config/tenentdb';
-import { customerSchema } from '../model/customer';
-export const getCustomerModel = async (tenantId) => {
+import { usershema } from '../model/user.model';
+
+export const getUserModel = async (tenantId) => {
     const tenantDb = await getTenantDB(tenantId);
-    return tenantDb.model("customers", customerSchema)
+    console.log("tenantDb",tenantDb)
+    return tenantDb.model("User", usershema)
 }
