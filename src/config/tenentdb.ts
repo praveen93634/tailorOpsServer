@@ -1,13 +1,13 @@
+import mongoose from 'mongoose';
 import connectDB from './database'
-const mongoose = require('mongoose');
+// const mongoose = require('mongoose');
 require('dotenv').config()
-let db;
+const connections: Record<number, mongoose.Connection> = {};
 
-
-export const getTenantDB = async (tenantId) => {
-    const dbName = `tenant-${tenantId}`;
-    db = db ? db : await connectDB(`${process.env.DB_URL}/${dbName}?retryWrites=true&w=majority`)
-    let tenantDb = db.useDb(dbName, { useCache: true });
-    return tenantDb;
-}
-
+export const getTenantDB = async (tenantId: number) => {
+  if (connections[tenantId]) return connections[tenantId];
+  const dbName = `tenant-${tenantId}`;
+  const conn = await mongoose.createConnection(`${process.env.DB_URL}/${dbName}?retryWrites=true&w=majority`);
+  connections[tenantId] = conn;
+  return conn;
+};

@@ -6,7 +6,8 @@ export interface UserDocument extends mongoose.Document {
     orgName:string;
     loginType: string;
     location:string
-    TenentId:String;
+    TenentId:number;
+    emailList:[]
     plantype:String;
     isSubscribed:true;
     isdefault:number;
@@ -34,7 +35,7 @@ export const usershema = new mongoose.Schema({
     },
     location:{type:String},
     orgName:{type:String},
-    TenentId:{type:String},
+    TenentId:{type:Number},
     loginType:{type:String,default:"user"},
     isSubscribed:{type:Boolean,default:false},
     isdefault:{type:Number},
@@ -42,6 +43,7 @@ export const usershema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
+     emailList:{type:Array},
     createdOn: {
         type: Date,
         default: Date.now

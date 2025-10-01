@@ -14,25 +14,28 @@ const User = require('../model/user.model')
  */
 export const createUser = async (req, res, next) => {
     try {
-    const userDetails: UserDocument = req.body;
-    const passwordHash = await bcrypt.hash(userDetails.password, 10);
-    const superAdminUser = new User({
-      ...userDetails,
-      password: passwordHash,
-      TenentId: 1,
-      isdefault:2
-    });
-    await superAdminUser.save();
-    const tenantDb = await getTenantDB(1);
-    const TenantUserModel = tenantDb.model("User", User.schema);
-    const tenantUser = new TenantUserModel({
-      ...userDetails,
-      password: passwordHash,
-      TenentId: 1,
-      isdefault:2
-    });
-    await tenantUser.save();
-    response(req, res, superAdminUser, 201, "User + Tenant created successfully");
+        const userDetails: UserDocument = req.body;
+          const counter = await Counter.findOneAndUpdate(
+    { name: "tenantId" },       // counter document for tenant IDs
+    { $inc: { seq: 1 } },       // increment seq by 1
+    { new: true, upsert: true } // create if doesn't exist
+  );
+  let tenandId=counter.seq;
+        const passwordHash = await bcrypt.hash(userDetails.password, 10);
+        const UserModel = await getTenentModel();
+        const superAdminUser = new UserModel(userDetails);
+        superAdminUser.password = passwordHash;
+        superAdminUser.isdefault = 1;
+        superAdminUser.TenentId = tenandId
+        await superAdminUser.save();
+        const tenantDb = await getTenantDB(tenandId);
+        const TenantUserModel = tenantDb.model("User", User.schema);
+        const tenantUser = new TenantUserModel(userDetails);
+        tenantUser.password = passwordHash;
+        tenantUser.TenentId = tenandId
+        tenantUser.isdefault = 1;
+        await tenantUser.save();
+        response(req, res, "", 201, "User + Tenant created successfully");
     }
     catch (err) {
         response(req, res, err, 500, err.message)

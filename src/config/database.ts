@@ -1,18 +1,23 @@
 import mongoose from "mongoose";
 require('dotenv').config()
 
-const mongooseOption={
-    autoIndex:false,
-    socketTimeoutMs:30000
-}
-const connectDB=async(url)=>{
-    console.log(url)
-    return new Promise(async (resolve,reject)=>{
-        const connection= await mongoose.createConnection(url,mongooseOption).asPromise();
-        resolve(connection)
-    }).catch((err:any)=>{
-        console.log(err)
-    })
-}
+// const mongooseOption={
+//     autoIndex:false,
+//     socketTimeoutMs:30000
+// }
+const connectDB = async (url: string) => {
+  try {
+    const conn = await mongoose.connect(url, {
+      dbName: "superAdmin",
+      autoIndex: false,
+      socketTimeoutMS: 30000,
+    });
+    console.log("MongoDB connected");
+    return conn;
+  } catch (err) {
+    console.error("DB connection failed:", err);
+    throw err;
+  }
+};
 export default connectDB;
 

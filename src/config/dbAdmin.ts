@@ -4,7 +4,7 @@ import connectDB from './database';
 import mongoose from "mongoose";
 require('dotenv').config()
 const url = `${process.env.DB_URL}/superAdmin?retryWrites=true&w=majority&appName=Cluster0`;
-
+console.log(url)
 let db;
 
 const getDb = async () => {
