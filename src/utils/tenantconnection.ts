@@ -1,8 +1,20 @@
 import { getTenantDB } from '../config/tenentdb';
-import { usershema } from '../model/user.model';
+import { employeeshema } from '../model/employee.model';
 
-export const getUserModel = async (tenantId) => {
+ const getEmployee = async (tenantId) => {
     const tenantDb = await getTenantDB(tenantId);
-    console.log("tenantDb",tenantDb)
-    return tenantDb.model("User", usershema)
+     if (tenantDb.models.Employee) {
+        return tenantDb.models.Employee;
+    }
+    return tenantDb.model("Employee", employeeshema)
 }
+module.exports = { getEmployee };
+// export const getModel = async (tenantId, modelName, schema) => {
+//     const tenantDb = await getTenantDB(tenantId);
+
+//     if (tenantDb.models[modelName]) {
+//         return tenantDb.models[modelName];
+//     }
+
+//     return tenantDb.model(modelName, schema);
+// };

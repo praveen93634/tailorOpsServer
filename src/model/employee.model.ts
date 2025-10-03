@@ -16,7 +16,7 @@ export interface EmployeeDocument extends mongoose.Document {
     modifiedOn?: Date;
     modifiedBy?: string;
 }
-const employeeshema = new mongoose.Schema({
+export const employeeshema = new mongoose.Schema({
     name: {
         type: String,
         required: true
@@ -74,5 +74,7 @@ const employeeshema = new mongoose.Schema({
     modifiedBy: {
         type: String,
     }
-});
-module.exports = mongoose.model('Employee', employeeshema);
+}, {
+  timestamps: true // Adds createdAt and updatedAt automatically
+} );
+// module.exports = mongoose.model('Employee', employeeshema);

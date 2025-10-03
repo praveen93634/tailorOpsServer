@@ -1,9 +1,11 @@
 import { log } from "console"
 import { response } from "../helper/commenrespons"
-import { EmployeeDocument } from "../model/employee.model"
+import { EmployeeDocument, employeeshema } from "../model/employee.model"
 import { validationResult } from 'express-validator'
+// import  getEmployee  from "../utils/tenantconnection"
+const {getEmployee}=require('../utils/tenantconnection')
+// import {getEmployee} from '../utils/tenantconnection'
 const bcrypt=require('bcrypt')
-const Employee = require('../model/employee.model')
 
 /***
  * Author:praveen Kumar
@@ -11,12 +13,15 @@ const Employee = require('../model/employee.model')
  * Description: This funtion is used to save the employee
  */
 export const saveEmployee = async (req, res, next) => {
+  
     try {
         console.log("req.body", req.body)
         const EmployeeDetails:EmployeeDocument = req.body;
+          const EmployeeModel=await getEmployee(req.user.TenentId);
+    console.log("EmployeeModel",EmployeeModel)
         const password=req.body.password
         const passwordHash =await bcrypt.hash(password, 10);
-        const employee = new Employee(EmployeeDetails);
+        const employee = new EmployeeModel(EmployeeDetails);
         employee.password =passwordHash;
         const insertEmployee = await employee.save();
         response(req, res, insertEmployee, 201, "Employee created successfully");
@@ -35,8 +40,9 @@ export const saveEmployee = async (req, res, next) => {
 export const UpdateEmployee = async (req, res, next) => {
     try {
         const EmployeeDetails: EmployeeDocument = req.body
-        const employee = new Employee(EmployeeDetails)
-        const data = await Employee.findByIdAndUpdate({ _id: req.body._id }, {
+         const EmployeeModel=await getEmployee(req.user.TenentId);
+        const employee = new EmployeeModel(EmployeeDetails)
+        const data = await EmployeeModel.findByIdAndUpdate({ _id: req.body._id }, {
             name: EmployeeDetails.name,
             email: EmployeeDetails.email
         })
@@ -54,8 +60,9 @@ export const UpdateEmployee = async (req, res, next) => {
 export const geAllEmployee = async (req, res, next) => {
     try {
         const EmployeeDetails: EmployeeDocument = req.body
-        const employee = new Employee(EmployeeDetails)
-        const data = await Employee.find()
+         const EmployeeModel=await getEmployee(req.user.TenentId);
+        const employee = new EmployeeModel(EmployeeDetails)
+        const data = await EmployeeModel.find()
         response(req, res, data, 201, "get All Employee Successfully")
     }
     catch (err) {
@@ -75,7 +82,8 @@ export const getEmployeeFilter=async(req,res,next)=>{
         let andList:any=[]
         andList.push({isDeleted:false})
         findquary=(andList.length>0)?{ $and: andList }: {};
-        let EmployeeList=await Employee.find(findquary).skip(page).limit(limit).sort({createdAt:-1})
+         const EmployeeModel=await getEmployee(req.user.TenentId);
+        let EmployeeList=await EmployeeModel.find(findquary).skip(page).limit(limit).sort({createdAt:-1})
         let EmployeeCount = EmployeeList?.length 
         response(req,res,{EmployeeList,EmployeeCount},200,"Employee List Fetched Successfully")
     }
@@ -83,3 +91,4 @@ export const getEmployeeFilter=async(req,res,next)=>{
         response(req,res,err,500,err.message)
     }
 }
+

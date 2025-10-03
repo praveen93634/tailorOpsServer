@@ -9,5 +9,5 @@ export const getTenantDB = async (tenantId: number) => {
   const dbName = `tenant-${tenantId}`;
   const conn = await mongoose.createConnection(`${process.env.DB_URL}/${dbName}?retryWrites=true&w=majority`);
   connections[tenantId] = conn;
-  return conn;
+  return connections[tenantId];
 };

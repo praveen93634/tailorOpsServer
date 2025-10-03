@@ -5,6 +5,7 @@ import { errorMessage } from '../../helper/errorMessage';
 import { hash } from 'crypto';
 const User = require('../../model/user.model')
 const jwt = require('jsonwebtoken')
+require('dotenv').config()
 
     /***
      * Author:praveen Kumar

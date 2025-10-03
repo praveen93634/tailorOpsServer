@@ -16,16 +16,16 @@ export const createUser = async (req, res, next) => {
     try {
         const userDetails: UserDocument = req.body;
           const counter = await Counter.findOneAndUpdate(
-    { name: "tenantId" },       // counter document for tenant IDs
-    { $inc: { seq: 1 } },       // increment seq by 1
-    { new: true, upsert: true } // create if doesn't exist
+    { name: "tenantId" },       
+    { $inc: { seq: 1 } },     
+    { new: true, upsert: true } 
   );
   let tenandId=counter.seq;
         const passwordHash = await bcrypt.hash(userDetails.password, 10);
         const UserModel = await getTenentModel();
         const superAdminUser = new UserModel(userDetails);
         superAdminUser.password = passwordHash;
-        superAdminUser.isdefault = 1;
+        superAdminUser.isdefault = 2;
         superAdminUser.TenentId = tenandId
         await superAdminUser.save();
         const tenantDb = await getTenantDB(tenandId);
@@ -33,7 +33,7 @@ export const createUser = async (req, res, next) => {
         const tenantUser = new TenantUserModel(userDetails);
         tenantUser.password = passwordHash;
         tenantUser.TenentId = tenandId
-        tenantUser.isdefault = 1;
+        tenantUser.isdefault = 2;
         await tenantUser.save();
         response(req, res, "", 201, "User + Tenant created successfully");
     }
@@ -60,6 +60,8 @@ export const createUser = async (req, res, next) => {
 //     response(req,res,error,500,error.message)
 //    }
 // })
+
+
 /***
  * Author:praveen Kumar
  * Date: 26-05-2025

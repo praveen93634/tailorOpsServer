@@ -13,8 +13,6 @@ export const basicAuth = async (req: any, res: any, next: any) => {
         }   
         req.user = decoded
         const user = await User.findById(req.user._id)
-        // req.body.createdBy = user.name
-        // req.body.modifiedBy = user.name
         next()
     } catch (error) {
        response(req, res, error, 500, error.message)
